@@ -20,9 +20,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 	private UsuarioRepositorio usuarioRepositorio;
 	
 	@Override
-	public void crearUsuarioLogin(Usuario usuario, Model model, MultipartFile fotoPerfil) {
+	public void crearUsuarioLogin(Usuario usuario, Model model, MultipartFile foto) {
 		
-		String nombreFoto = Utilitarios.guardarImagen(fotoPerfil);
+		String nombreFoto = Utilitarios.guardarImagen(foto);
 		
 		usuario.setUrlPerfil(nombreFoto);
 		
@@ -58,8 +58,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	public Usuario buscarUsuarioPorCorreo(String correo) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return usuarioRepositorio.findBycorreo(correo);
 	}
 
 }

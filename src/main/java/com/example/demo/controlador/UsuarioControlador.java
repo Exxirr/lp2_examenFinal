@@ -31,9 +31,9 @@ public class UsuarioControlador {
 	
 	
 	@PostMapping("/registrar")
-	public String registrarUsuario(Usuario usuario, Model model, @RequestParam("fotoPerfil") MultipartFile fotoPerfil) {
+	public String registrarUsuario(Usuario usuario, Model model, @RequestParam("foto") MultipartFile foto) {
 		
-		usuarioServicio.crearUsuarioLogin(usuario, model, fotoPerfil);
+		usuarioServicio.crearUsuarioLogin(usuario, model, foto);
 		
 		return "registrar_usuario";	
 	}
@@ -64,5 +64,12 @@ public class UsuarioControlador {
 		model.addAttribute("usuario", new Usuario());
 		
 		return "login";
+	}
+	
+	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
 	}
 }

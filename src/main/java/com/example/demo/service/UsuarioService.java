@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpSession;
 
 public interface UsuarioService {
 
-	void crearUsuarioLogin(Usuario usuario, Model model, MultipartFile fotoPerfil);
+	void crearUsuarioLogin(Usuario usuario, Model model, MultipartFile foto);
 	
 	boolean validarUsuario(Usuario usuario, HttpSession session);
 	
