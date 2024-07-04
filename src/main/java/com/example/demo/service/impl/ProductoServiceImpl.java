@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +24,20 @@ public class ProductoServiceImpl implements ProductoService {
 
 	@Override
 	public Producto guardarProducto(Producto producto) {
+		
 		return productoRepositorio.save(producto);
 		
+	}
+
+	@Override
+	public Producto buscarProductoPorId(Integer id) {
+		
+		return productoRepositorio.findById(id).get();
+	}
+
+	@Override
+	public void eliminarProductoPorId(Integer id) {
+		productoRepositorio.deleteById(id);
 	}
 
 }

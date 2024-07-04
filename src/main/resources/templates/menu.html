@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Navbar Example</title>
+    <title>Listado Productos</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <!-- FontAwesome -->
@@ -70,6 +70,9 @@
 					<td th:text="${productos.precioProd}"></td>
 					<td th:text="${productos.stockProd}"></td>
 					<td th:text="${productos.categoria.nomCategoria}"></td>
+			
+					<td><a th:href="@{/editar_producto/{prodId}(prodId=${productos.prodId})}" class="btn btn-primary">Editar Producto</a>
+							<a th:href="@{/detalle_producto/{prodId}(prodId=${productos.prodId})}" class="btn btn-sm btn-primary">Detalle</a>
 				</tr>
 			</tbody>
 		</table>

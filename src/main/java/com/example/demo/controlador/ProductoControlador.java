@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.entity.Categoria;
@@ -78,6 +79,73 @@ public class ProductoControlador {
 		return "redirect:/menu";
 	}
 	
-		
 	
+	@GetMapping("/editar_producto/{prodId}")
+	public String editarProducto(Model model, @PathVariable("prodId") Integer proId, HttpSession session) {
+		
+		if(session.getAttribute("usuario") == null) {
+			
+			return "redirect:/";
+			
+		}
+		
+		Producto producto = productoServicio.buscarProductoPorId(proId);
+		
+		List <Categoria> listarCategoria = categoriaServicio.buscarTodosCategoria();
+		
+		model.addAttribute("productos", producto);
+		
+		model.addAttribute("categorias", listarCategoria);
+		
+		 return "editar_productos";
+		
+	}
+	
+	
+	@PostMapping("/editar_producto/{prodId}")
+	public String guardarProductoEditado(@PathVariable("prodId") Integer prodId, @ModelAttribute("productos") Producto producto, HttpSession session) {
+	    
+	    if (session.getAttribute("usuario") == null) {
+	        return "redirect:/";
+	    }
+	    
+	    productoServicio.guardarProducto(producto);
+	    
+	    return "redirect:/menu";
+	}
+	
+	@GetMapping("/detalle_producto/{prodId}")
+	public String verProducto(Model model, @PathVariable("prodId") Integer proId, HttpSession session) {
+		
+		
+		if(session.getAttribute("usuario") == null) {
+			
+			return "redirect:/login";
+			
+		}
+		
+		Producto productoEncontrado = productoServicio.buscarProductoPorId(proId);
+		
+		model.addAttribute("productos", productoEncontrado);
+		
+		
+		return "detalle_productos";
+	
+		
+	}
+	
+	
+	@GetMapping("/eliminarProducto/{proId}")
+	public String eliminarProducto(Model model, @PathVariable("proId") Integer proId, HttpSession session) {
+		
+		if(session.getAttribute("usuario") == null) {
+    		return "redirect:/login";
+    	}
+		
+		
+		productoServicio.eliminarProductoPorId(proId);
+		
+		return "redirect:/menu";
+	
+	}
 }
