@@ -1,8 +1,18 @@
 package com.example.demo.controlador;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +24,7 @@ import com.example.demo.entity.Categoria;
 import com.example.demo.entity.Producto;
 import com.example.demo.entity.Usuario;
 import com.example.demo.service.CategoriaService;
+import com.example.demo.service.PdfService;
 import com.example.demo.service.ProductoService;
 import com.example.demo.service.UsuarioService;
 
@@ -32,6 +43,9 @@ public class ProductoControlador {
 	
 	@Autowired
 	private CategoriaService categoriaServicio;
+	
+	@Autowired
+	private PdfService pdfservice;
 	
 	
 	@GetMapping("/menu")
@@ -147,5 +161,34 @@ public class ProductoControlador {
 		
 		return "redirect:/menu";
 	
+	}
+	
+	
+	@GetMapping("/generar_pdf")
+	
+	public ResponseEntity<InputStreamResource> generarPdf(HttpSession session) throws IOException{
+		
+		List<Producto> productoSession = null;
+		
+		if(session.getAttribute("usuario") != null) {
+			
+			productoSession = productoServicio.buscarTodosProductos();
+			
+		}else {
+			
+			productoSession = (List<Producto>) session.getAttribute("productos");
+		}
+	
+		Map<String, Object> datosPdf = new HashMap<String, Object>();
+		
+		datosPdf.put("productosDatos", productoSession);
+		
+		ByteArrayInputStream pdfBytes = pdfservice.generarPdfDeHtml("template_pdf", datosPdf);
+		
+		HttpHeaders httpHeaders = new HttpHeaders();	
+		httpHeaders.add("Content-Disposition", "inline; filename=productos.pdf");
+		
+		return ResponseEntity.ok().headers(httpHeaders).contentType(MediaType.APPLICATION_PDF).body(new InputStreamResource(pdfBytes));
+		
 	}
 }

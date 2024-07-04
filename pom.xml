@@ -64,6 +64,18 @@
 			<version>0.4</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>kernel</artifactId>
+			<version>7.2.1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>html2pdf</artifactId>
+			<version>4.0.1</version>
+		</dependency>
+		
 		<!--QUITARLO LUEGO-->
     <dependency>
         <groupId>org.springframework.boot</groupId>
