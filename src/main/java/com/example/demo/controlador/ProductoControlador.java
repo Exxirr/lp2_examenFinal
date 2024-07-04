@@ -68,18 +68,32 @@ public class ProductoControlador {
 		
 		model.addAttribute("listarProductos", productos);
 		
+		model.addAttribute("usuario", usuario);
+		
 		return "menu";
 	}
 	
 	
 	@GetMapping("/registrar_producto")
-	public String mostrarRegistrarProducto(Model model) {
+	public String mostrarRegistrarProducto(HttpSession session, Model model) {
+		
+			if(session.getAttribute("usuario") == null) {
+			
+			return "redirect:/";
+			
+		}
 		
 		List<Categoria> listarCategoria = categoriaServicio.buscarTodosCategoria();
+		
+		String correo = session.getAttribute("usuario").toString();
+		
+		Usuario usuario = usuarioServicio.buscarUsuarioPorCorreo(correo);
 		
 		model.addAttribute("productos", new Producto());
 		
 		model.addAttribute("categorias", listarCategoria);
+		
+		model.addAttribute("usuario", usuario);
 		
 		return "registrar_productos";
 	}
@@ -103,6 +117,10 @@ public class ProductoControlador {
 			
 		}
 		
+		String correo = session.getAttribute("usuario").toString();
+			
+		Usuario usuario = usuarioServicio.buscarUsuarioPorCorreo(correo);
+		
 		Producto producto = productoServicio.buscarProductoPorId(proId);
 		
 		List <Categoria> listarCategoria = categoriaServicio.buscarTodosCategoria();
@@ -110,6 +128,8 @@ public class ProductoControlador {
 		model.addAttribute("productos", producto);
 		
 		model.addAttribute("categorias", listarCategoria);
+		
+		model.addAttribute("usuario", usuario);
 		
 		 return "editar_productos";
 		
@@ -123,7 +143,11 @@ public class ProductoControlador {
 	        return "redirect:/";
 	    }
 	    
+	  
+	    
 	    productoServicio.guardarProducto(producto);
+	    
+		
 	    
 	    return "redirect:/menu";
 	}
@@ -138,10 +162,15 @@ public class ProductoControlador {
 			
 		}
 		
+		String correo = session.getAttribute("usuario").toString();
+		
+		Usuario usuario = usuarioServicio.buscarUsuarioPorCorreo(correo);
+		
 		Producto productoEncontrado = productoServicio.buscarProductoPorId(proId);
 		
 		model.addAttribute("productos", productoEncontrado);
 		
+		model.addAttribute("usuario", usuario);
 		
 		return "detalle_productos";
 	

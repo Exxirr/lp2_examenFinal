@@ -2,12 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Registrar Productos</title>
+    <title>Editar Productos</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 </head>
 <body>
     <div class="container mt-4">
-        <h1>Registrar Productos</h1>
+    
+       <h4 th:text="'Bienvenido ' + ${usuario.nombres}"></h4>
+    
+        <h1>Editar Productos</h1>
         <form th:action="@{/editar_producto/{prodId}(prodId=${productos.prodId})}" th:object="${productos}" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="nombre" class="form-label">Nombre Producto</label>

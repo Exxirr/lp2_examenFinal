@@ -7,7 +7,12 @@
 </head>
 <body>
     <div class="container mt-4">
+    
+    <h4 th:text="'Bienvenido ' + ${usuario.nombres}"></h4>
+    
+    
         <h1>Registrar Productos</h1>
+        
         <form th:action="@{/registrar_producto}" th:object="${productos}" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="nombre" class="form-label">Nombre Producto</label>
